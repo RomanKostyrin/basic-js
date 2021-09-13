@@ -1,4 +1,4 @@
-import { NotImplementedError } from '../extensions/index.js';
+import { NotImplementedError } from '../extensions/index.js'
 
 /**
  * In the popular Minesweeper game you have a board with some mines and those cells
@@ -23,7 +23,47 @@ import { NotImplementedError } from '../extensions/index.js';
  *  [1, 1, 1]
  * ]
  */
-export default function minesweeper (/* matrix */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+export default function minesweeper(matrix) {
+  let field = []
+
+  matrix.forEach((element, index) => {
+    field.push(Array(element.length).fill(0))
+    element.forEach((el, i) => {
+      let counter = 0
+
+      if (matrix[index][i - 1]) {
+        counter++
+      }
+      if (matrix[index][i + 1]) {
+        counter++
+      }
+      if (matrix[index - 1]) {
+        if (matrix[index - 1][i]) {
+          counter++
+        }
+        if (matrix[index - 1][i - 1]) {
+          counter++
+        }
+        if (matrix[index - 1][i + 1]) {
+          counter++
+        }
+      }
+      if (matrix[index + 1]) {
+        if (matrix[index + 1][i]) {
+          counter++
+        }
+        if (matrix[index + 1][i - 1]) {
+          counter++
+        }
+        if (matrix[index + 1][i + 1]) {
+          counter++
+        }
+      }
+
+      if (counter > 0) {
+        field[index][i] = counter
+      }
+    })
+  })
+  return field
 }
