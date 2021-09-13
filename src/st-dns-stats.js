@@ -1,4 +1,4 @@
-import { NotImplementedError } from '../extensions/index.js';
+import { NotImplementedError } from '../extensions/index.js'
 
 /**
  * Given an array of domains, return the object with the appearances of the DNS.
@@ -22,7 +22,20 @@ import { NotImplementedError } from '../extensions/index.js';
  * }
  *
  */
-export default function getDNSStats(/* domains */) {
-  throw new NotImplementedError('Not implemented');
-  // remove line with error and write your code here
+export default function getDNSStats(domains) {
+  let map = {}
+  let reverse = domains.map(
+    (element) => element.split('.').reverse().join('.') + '.'
+  )
+  let sign = ''
+  reverse.forEach((element) => {
+    sign = '.' + element.slice(0, element.indexOf('.'))
+    while (element) {
+      console.log(sign)
+      map[sign] = map[sign] ? map[sign] + 1 : 1
+      element = element.slice(element.indexOf('.') + 1)
+      sign = sign + '.' + element.slice(0, element.indexOf('.'))
+    }
+  })
+  return map
 }
