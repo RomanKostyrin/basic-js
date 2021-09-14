@@ -35,7 +35,7 @@ export default class VigenereCipheringMachine {
     const length = message.split(' ').reduce((acc, el) => acc + el.length, 0)
 
     if (key.length < length) {
-      key = key.repeat(5).slice(0, length)
+      key = key.repeat(length * length + 200).slice(0, length)
     }
     let shift = 0
     for (let i = 0; i < length; i++) {
@@ -62,5 +62,33 @@ export default class VigenereCipheringMachine {
     if (!key || !encryptedMessage) {
       throw new Error('Incorrect arguments!')
     }
+    key = key.toUpperCase()
+    encryptedMessage = encryptedMessage.toUpperCase()
+    let encryptMessage = ''
+    const length = encryptedMessage
+      .split(' ')
+      .reduce((acc, el) => acc + el.length, 0)
+    if (key.length < length) {
+      key = key.repeat(length * length + 200).slice(0, length)
+    }
+    let shift = 0
+    for (let i = 0; i < length; i++) {
+      if (encryptedMessage[i + shift] === ' ') {
+        shift++
+        encryptMessage += ' '
+      }
+      if (this.lang.indexOf(encryptedMessage[i + shift]) === -1) {
+        encryptMessage += encryptedMessage[i + shift]
+      } else {
+        let char =
+          this.lang.indexOf(encryptedMessage[i + shift]) -
+          this.lang.indexOf(key[i])
+        if (char < 0) {
+          char += 26
+        }
+        encryptMessage += this.lang[char]
+      }
+    }
+    return encryptMessage
   }
 }
