@@ -20,8 +20,8 @@ import { NotImplementedError } from '../extensions/index.js'
  *
  */
 export default class VigenereCipheringMachine {
-  constructor(is) {
-    this.reverse = true | is
+  constructor(is = true) {
+    this.reverse = is
     this.lang = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
   }
   encrypt(message, key) {
@@ -35,7 +35,7 @@ export default class VigenereCipheringMachine {
     const length = message.split(' ').reduce((acc, el) => acc + el.length, 0)
 
     if (key.length < length) {
-      key = key.repeat(length * length + 200).slice(0, length)
+      key = key.repeat(200).slice(0, length)
     }
     let shift = 0
     for (let i = 0; i < length; i++) {
@@ -52,9 +52,8 @@ export default class VigenereCipheringMachine {
         encryptMessage += this.lang[char]
       }
     }
-    if (!this.reverse) {
-      encryptMessage = encryptMessage.reverse()
-    }
+    if (!this.reverse)
+      encryptMessage = encryptMessage.split('').reverse().join('')
     return encryptMessage
   }
 
@@ -69,7 +68,7 @@ export default class VigenereCipheringMachine {
       .split(' ')
       .reduce((acc, el) => acc + el.length, 0)
     if (key.length < length) {
-      key = key.repeat(length * length + 200).slice(0, length)
+      key = key.repeat(200).slice(0, length)
     }
     let shift = 0
     for (let i = 0; i < length; i++) {
@@ -89,6 +88,8 @@ export default class VigenereCipheringMachine {
         encryptMessage += this.lang[char]
       }
     }
+    if (!this.reverse)
+      encryptMessage = encryptMessage.split('').reverse().join('')
     return encryptMessage
   }
 }
