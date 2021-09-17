@@ -17,20 +17,25 @@ import { NotImplementedError } from '../extensions/index.js'
  */
 export default function repeater(str, options) {
   str = String(str)
-  if (options.addition !== undefined) {
+  let add = '|'
+  if (typeof options.addition === 'object') {
+    options.addition = String(options.addition)
+    add = ''
+  } else if (options.addition !== undefined) {
     options.addition = String(options.addition)
   }
+
   let separator = options.separator ? options.separator : '+'
   let addition = ''
   let newStr = ''
   if (options.addition) {
     if (!options.additionSeparator && !options.separator) {
-      addition = options.addition + '|'
+      addition = options.addition + add
       addition = options.additionRepeatTimes
         ? addition.repeat(options.additionRepeatTimes - 1) + options.addition
         : addition
     } else if (!options.additionSeparator) {
-      addition = options.addition + '|'
+      addition = options.addition + add
       addition = options.additionRepeatTimes
         ? addition.repeat(options.additionRepeatTimes - 1) + options.addition
         : addition
